@@ -14,7 +14,7 @@ However, you can process them however you wish.
 
 This is a move from the Mover example game:
 
-	{{
+	{ {
 	  "block": {
 	    "hash": "6d8071aa2e91e13004d9cc185e3a51a1975f33f190b171ce3d638ae17fdb1154",
 	    "height": 244774,
@@ -36,7 +36,7 @@ This is a move from the Mover example game:
 	    }
 	  ],
 	  "reqtoken": "cf8efee5419ca175f67f8318a1977160"
-	}}
+	} }
 
 The `block` and `reqtoken` fields are fixed. The `moves` field is an array of moves. 
 
@@ -74,7 +74,7 @@ A `blockDataS` with no moves would look similar to the following.
 
 
 
-{[
+{ [
   {
     "move": {
       "d": "u",
@@ -86,16 +86,16 @@ A `blockDataS` with no moves would look similar to the following.
     },
     "txid": "83747d1e69e264644f425bc2dae3bedca6d72274a0f2f82b00d9a0a70714c2be"
   }
-]}
+] }
 
 blockData:
 "{\"block\":{\"hash\":\"44dd0655875c7538adaa47b7c66cb57e861397341e06c63715285916f9d026d8\",\"height\":555556,\"parent\":\"ce6a6ae43103db943a74294b90906de9bb873d602f2881ddb3eb7a9f0e626312\",\"rngseed\":\"9f73fe227ac8ac4d8fe17721c554ea631792e270019dfb5262f73d3750ee8684\",\"timestamp\":1548967987},\"moves\":[],\"reqtoken\":\"7c39c7f470fe1fda739ace2d3b8620f5\"}"
 
 
 JObject obj = JsonConvert.DeserializeObject<JObject>(m["move"].ToString());
-{{
+{ {
   "m": "HELLO WORLD!"
-}}
+} }
 
 
 
@@ -132,7 +132,7 @@ public class Moves
 
 
 
-{{
+{ {
   "block": {
     "hash": "44dd0655875c7538adaa47b7c66cb57e861397341e06c63715285916f9d026d8",
     "height": 555556,
@@ -142,10 +142,10 @@ public class Moves
   },
   "moves": [],
   "reqtoken": "11352f3c647924c9fcfec8e0c91fb7ec"
-}}
+} }
 
 
-{{
+{ {
   "block": {
     "hash": "44dd0655875c7538adaa47b7c66cb57e861397341e06c63715285916f9d026d8",
     "height": 555556,
@@ -155,4 +155,4 @@ public class Moves
   },
   "moves": [],
   "reqtoken": "11352f3c647924c9fcfec8e0c91fb7ec"
-}}
+} }
