@@ -145,7 +145,7 @@ This tutorial provides a high-level overview of the component relationships and 
 
 > ![GO!](img/arrow-green-right-2a.png) [GOTO libxayagame Component Relationships](libxayagame_Component_Relationships.md)
 
-# How to Wire Up libxayagame in C#
+## How to Wire Up libxayagame in C#
 
 This very short tutorial explains how to add libxayagame to a project.
 
