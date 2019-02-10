@@ -14,7 +14,7 @@ You'll need a XAYA wallet and some CHI.
 
 To start, download and install the latest [XAYA Electron wallet here](https://github.com/xaya/xaya_electron/releases) if you're on Windows, or the the [XAYA QT wallet](https://github.com/xaya/xaya/releases) if you're on Linux or Mac. The wallets automatically run the XAYA daemon, i.e. xayad. (This tutorial assumes Windows.)
 
-If you run the QT or xayad, you'll need to set flags manually. They're automatically set in the Electron wallet. For more information on flags, see the [Daemon Flags tutorial](Daemon%20Flags.md).
+If you run the QT or xayad, you'll need to set flags manually. They're automatically set in the Electron wallet. For more information on flags, see the [Daemon Flags tutorial](Daemon_Flags.md).
 
 Run the wallet or xayad and give it time to fully synchronise. 
 
@@ -35,7 +35,7 @@ While this tutorial only explains HelloXaya, you can find more information about
 
 [**VIDEO** Set your XAYA project to 64 bit](https://gaming.youtube.com/watch?v=kM6bhzIwYY4)
 
-[![Set your XAYA project to 64 bit](img/Set%20your%20XAYA%20project%20to%2064-bit.png)](https://gaming.youtube.com/watch?v=kM6bhzIwYY4)
+[![Set your XAYA project to 64 bit](img/Set_your_XAYA_project_to_64-bit.png)](https://gaming.youtube.com/watch?v=kM6bhzIwYY4)
 
 The XAYAWrapper DLL (libxayawrap.dll) is 64-bit. Consequently, your project **MUST** exclude 32-bit or explicitly be set as 64-bit. See this HelloXaya setting:
 
@@ -49,7 +49,7 @@ Otherwise, you must set your project to be 64-bit (x64).
 
 [**VIDEO** Simplified overview of implementing XAYA](https://gaming.youtube.com/watch?v=w4wPBOfqAjA)
 
-[![Simplified overview of implementing XAYA](img/Simplified%20overview%20of%20implementing%20XAYA.png)](https://gaming.youtube.com/watch?v=w4wPBOfqAjA)
+[![Simplified overview of implementing XAYA](img/Simplified_overview_of_implementing_XAYA.png)](https://gaming.youtube.com/watch?v=w4wPBOfqAjA)
 
 To implement XAYA, all you need to do is to is:
 
@@ -83,7 +83,7 @@ You can implement better threading structures on your own.
 
 [**VIDEO** Instantiate and Connect to XAYAWrapper](https://gaming.youtube.com/watch?v=Ge06qTLZ2nE)
 
-[![Instantiate and Connect to XAYAWrapper](img/Instantiate%20and%20Connect%20to%20XAYAWrapper.png)](https://gaming.youtube.com/watch?v=Ge06qTLZ2nE)
+[![Instantiate and Connect to XAYAWrapper](img/Instantiate_and_Connect_to_XAYAWrapper.png)](https://gaming.youtube.com/watch?v=Ge06qTLZ2nE)
 
 Instantiating and Connecting to XAYAWrapper **must** be done in a thread. The connection is a blocking operation. 
 
@@ -114,7 +114,7 @@ To connect, call the Connect method:
 
 [**VIDEO** Listening for new GameStates](https://gaming.youtube.com/watch?v=_WwaMVVeECE)
 
-[![Listening for new GameStates](img/Listening%20for%20new%20GameStates.png)](https://gaming.youtube.com/watch?v=_WwaMVVeECE) 
+[![Listening for new GameStates](img/Listening_for_new_GameStates.png)](https://gaming.youtube.com/watch?v=_WwaMVVeECE) 
 
 We must listen for updates in a thread. There are 4 important lines of code.
 
@@ -139,7 +139,7 @@ The final step in our listening thread is to send the game state to the main UI 
 
 [**VIDEO** Update the UI with the New GameState](https://gaming.youtube.com/watch?v=hqnFEUSNg7w)
 
-[![Update the UI with the New GameState](img/Update%20the%20UI%20with%20the%20New%20GameState.png)](https://gaming.youtube.com/watch?v=hqnFEUSNg7w) 
+[![Update the UI with the New GameState](img/Update_the_UI_with_the_New_GameState.png)](https://gaming.youtube.com/watch?v=hqnFEUSNg7w) 
 
 Our listener thread casts the event argument as a `GameState` and sends it to a method that updates the game.
 
@@ -157,7 +157,7 @@ We then update the textbox in the UI.
 
 [**VIDEO** Sending Moves to the Blockchain](https://gaming.youtube.com/watch?v=w-dIikNq8Gg)
 
-[![Sending Moves to the Blockchain](img/Sending%20Moves%20to%20the%20Blockchain.png)](https://gaming.youtube.com/watch?v=w-dIikNq8Gg) 
+[![Sending Moves to the Blockchain](img/Sending_Moves_to_the_Blockchain.png)](https://gaming.youtube.com/watch?v=w-dIikNq8Gg) 
 
 You don't need to be running an instance of a game to send moves. 
 

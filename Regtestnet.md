@@ -60,7 +60,7 @@ Next, run the QT wallet with the `-regtest` and `server=1` flags as shown below.
 
 The XAYA QT wallet program will open up and you'll have a zero CHI balance. You can ignore the first screen; click the Hide button.
 
-![Fire up regtestnet](img/XAYA%20QT%20wallet%20-regtest%20-server=1.png)
+![Fire up regtestnet](img/XAYA_QT_wallet_-regtest_-server=1.png)
 
 You're now running your own regtestnet. 
 
@@ -108,7 +108,7 @@ Next, you'll need to create address so that you can mine regtestnet CHI into. Th
 
 That will output an address for you, e.g. "ceeABTxXdFaeL4eJKrAHqEatXXb7mwk1tS". You can also check that it is in your restestnet wallet in the QT client through File > Receiving addresses...
 
-![A new regtestnet CHI address](img/New%20regtestnet%20address.png)
+![A new regtestnet CHI address](img/New_regtestnet_address.png)
 
 # Mine Some CHI
 
@@ -135,11 +135,11 @@ You can run the `getbalance` command used above to see that you now have 50 CHI 
 
 Here we see the Overview with 50 CHI available, and 5000 CHI immature.
 
-![XAYA QT Overview 50 CHI.png](img/XAYA%20QT%20Overview%2050%20CHI.png)
+![XAYA QT Overview 50 CHI.png](img/XAYA_QT_Overview_50_CHI.png)
 
 You can also check the Transactions tab and scroll to see that only 1 is fully confirmed.
 
-![XAYA QT Transactions](img/XAYA%20QT%20Transactions.png)
+![XAYA QT Transactions](img/XAYA_QT_Transactions.png)
 
 You can repeat the above `generatetoaddress` command and you'll see that your balance increases. However, as you mine more blocks, the number of immature coins will slowly decline because immature coins require 100 confirmations to mature and the block reward declines very rapidly compared to mainnet, e.g. by block 1200 the reward will be 0.19531250 CHI.
 
@@ -189,6 +189,6 @@ In this tutorial we looked at:
 
 There are other tutorials, but perhaps what would be most useful at this point is for you to create a regtestnet program that lets you mine new blocks in a controlled way. Using xaya-cli may be an option for you if you like using consoles. However, you may wish to create a program with a GUI. If so, you'll most likely want to use the RPC interface to issue commands directly to the daemon. There are 2 RPC tutorials to help you get started there:
 
-- [XAYA RPC Methods](XAYA%20RPC%20Methods.md)
-- [RPC Windows C# Tutorial](RPC%20Windows%20C%23%20Tutorial/README.md)
+- [XAYA RPC Methods](XAYA_RPC_Methods.md)
+- [RPC Windows C# Tutorial](RPC_Windows_C%23_Tutorial/README.md)
 

@@ -75,11 +75,11 @@ With that, we have our bright and shiny new XAYAService object ready to use. For
 
 When you run the project, you&#39;ll then see the title bar text like this:
 
-![](img/XAYABitcoinLib%20title%20bar%20text.png)
+![](img/XAYABitcoinLib_title_bar_text.png)
 
 The XAYAService object, xayaCoinService, contains many methods common to Bitcoin and other coins. It also contains several methods that are unique to XAYA. You can type &quot;xayaCoinService.&quot; to display the Visual Studio Intellisense:
 
-![](img/XAYAService%20intellisense.png)
+![](img/XAYAService_intellisense.png)
 
 Some of the methods you&#39;ll need include:
 

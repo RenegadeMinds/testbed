@@ -2,7 +2,7 @@
 
 This tutorial demonstrates how to wire up a game to run on the XAYA platform. Of particular interest, it shows how to use libxayagame and various RPCs. But most importantly, it shows how to write a simple game on the XAYA platform. Portions of this tutorial repeat portions of other tutorials. This tutorial is written such that you can skip around easily to those parts of greatest interest to you. 
 
-You'll need to download the code. It's available [here](Unity%20Mover%20Code.zip). Extract the ZIP file. You'll find 3 projects inside the folder. 
+You'll need to download the code. It's available [here](Unity_Mover_Code.zip). Extract the ZIP file. You'll find 3 projects inside the folder. 
 
 1. BitcoinLib: The RPC library
 2. XAYAWrapper: The libxayagame wrapper
@@ -102,7 +102,7 @@ Starting from the bottom of the diagram, we have BitcoinLib. It's the RPC librar
 - XAYAClient
 - XAYAConnector
 
-We'll examine what's being done when we get to that code. The BitcoinLib code is included in the download. You can edit it as you wish to add in more RPC methods. (See the [XAYA RPC Methods](XAYA%20RPC%20Methods.md) and [Interacting with the XAYA Wallet Through RPC in C#](RPC%20Windows%20C%23%20Tutorial/README.md) for more information.)
+We'll examine what's being done when we get to that code. The BitcoinLib code is included in the download. You can edit it as you wish to add in more RPC methods. (See the [XAYA RPC Methods](XAYA_RPC_Methods.md) and [Interacting with the XAYA Wallet Through RPC in C#](RPC_Windows_C%23_Tutorial/README.md) for more information.)
 
 ## XAYAWrapper
 
@@ -149,7 +149,7 @@ We've already explained the purpose of BitcoinLib above, but should mention that
 - BitcoinLib\Services\RpcServices\RpcService\IRpcService.cs
 - BitcoinLib\Services\RpcServices\RpcService\RpcService.cs
 
-Scroll to the bottom and you'll see how new functionality can be easily added. For more information on XAYA RPCs, refer to [XAYA RPC Methods](XAYA%20RPC%20Methods.md) and [Interacting with the XAYA Wallet Through RPC in C#](RPC%20Windows%20C%23%20Tutorial/README.md).
+Scroll to the bottom and you'll see how new functionality can be easily added. For more information on XAYA RPCs, refer to [XAYA RPC Methods](XAYA_RPC_Methods.md) and [Interacting with the XAYA Wallet Through RPC in C#](RPC_Windows_C%23_Tutorial/README.md).
 
 # XAYAWrapper
 

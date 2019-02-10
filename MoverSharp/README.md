@@ -12,7 +12,7 @@ The XAYA daemon processes transactions and notifies libxayagame when new blocks 
 
 The GSP is where libxayagame and the game logic resides. It calculates game states and notifies the front end so that it can redraw the screen or otherwise update the GUI. In this Mover example, the GSP, and specifically libxayagame using glog, sends output to the console (front end).
 
-Normally the front end subscribes and listens to the GSP using the RPC `waitforchange` command. It also sends RPC commands for player moves to the daemon so that they can be entered into the blockchain. However, this particular Mover example doesn&#39;t allow sending moves. See the [Unity Mover](Unity%20Mover.md) example for a more interactive version where you can move your player.
+Normally the front end subscribes and listens to the GSP using the RPC `waitforchange` command. It also sends RPC commands for player moves to the daemon so that they can be entered into the blockchain. However, this particular Mover example doesn&#39;t allow sending moves. See the [Unity Mover](Unity_Mover.md) example for a more interactive version where you can move your player.
 
 Note: The front end and GSP run in separate processes on different threads.
 
@@ -20,7 +20,7 @@ The front end and GSP each use a TCP port for RPC commands. The GSP communicates
 
 	GSP <–port 1–> Front end <–port 2–> Daemon
 
-So the GSP and daemon use 1 port while the front end uses 2 ports. See [libxayagame Component Relationships](libxayagame%20Component%20Relationships.md) for diagrams and information on different ways that games can wire up libxayagame.
+So the GSP and daemon use 1 port while the front end uses 2 ports. See [libxayagame Component Relationships](libxayagame_Component_Relationships.md) for diagrams and information on different ways that games can wire up libxayagame.
 
 In order to focus on coding for XAYA, the example here for &quot;Mover&quot; has no GUI. Instead, we will write a console application and libxayagame will display output there. Also, the TCP port is set to 0 in libxayagame.
 
@@ -161,7 +161,7 @@ Our `HelperFunctions` class contains static methods that we&#39;ll use in the ga
 
 As there&#39;s nothing particularly special in this class, further examination of it is left to the reader to pursue on their own. The only remaining point that should be made is that there should be thorough error checking, and particularly for data received through the blockchain, which in this case would be the `JObject` passed to `ParseMove`. See the error checking in that method for an example. 
 
-To make the case for extreme error checking, consider that anyone could issue a `name_update` operation through the daemon or XAYA QT wallet console. That data would be entirely arbitrary. Each and every bit of data from the blockchain **MUST** be checked. While normal people just want to play the game, there are some people that just want to see if they can break things. You must guard against them. An example invalid move is shown below in [A Quick Look at Moves](#A%20Quick%20Look%20at%20Moves).
+To make the case for extreme error checking, consider that anyone could issue a `name_update` operation through the daemon or XAYA QT wallet console. That data would be entirely arbitrary. Each and every bit of data from the blockchain **MUST** be checked. While normal people just want to play the game, there are some people that just want to see if they can break things. You must guard against them. An example invalid move is shown below in [A Quick Look at Moves](#A_Quick_Look_at_Moves).
 
 # Program.cs
 

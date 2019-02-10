@@ -29,7 +29,7 @@ The examples below use xaya-cli and a XAYA game wallet.
 
 Most likely, you will wish to use an RPC library inside of your game for RPC calls. 
 
-See [Interacting with the XAYA Wallet Through RPC in C#](RPC%20Windows%20C%23%20Tutorial/README.md) for a sample application and tutorial of using the RPC methods through a 3rd party library. 
+See [Interacting with the XAYA Wallet Through RPC in C#](RPC_Windows_C%23_Tutorial/README.md) for a sample application and tutorial of using the RPC methods through a 3rd party library. 
 
 # Names
 

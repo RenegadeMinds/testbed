@@ -29,7 +29,7 @@ Further, the Electron wallet contains 2 distinct wallets:
 - game.dat: Has no password. Meant for storing smaller amounts of CHI to play games
 - vault.dat: Is password protected. Meant for storing larger amounts of CHI
 
-Refer to the [Wallets](XAYA%20Electron%20Help/Top.md#Wallets) section of the [XAYA Electron Help](XAYA%20Electron%20Help) documentation for a more in depth description. 
+Refer to the [Wallets](XAYA_Electron_Help/Top.md#Wallets) section of the [XAYA Electron Help](XAYA_Electron_Help) documentation for a more in depth description. 
 
 However, even if you do choose to use the Electron wallet, you should still download the QT wallet as it has some [**important tools** that you'll enjoy using](#XAYA-QT-Toolkit). 
 
@@ -94,7 +94,7 @@ The libxayagame daemon does much of the heavy lifting that blockchain programmin
 
 You don't need to decide on this right now, but you will need to download whichever option you need when it comes time to start coding. 
 
-For information on GSPs and how libxayagame relates to the XAYA daemon and your game, see [libxayagame Component Relationships](libxayagame%20Component%20Relationships.md)
+For information on GSPs and how libxayagame relates to the XAYA daemon and your game, see [libxayagame Component Relationships](libxayagame_Component_Relationships.md)
 
 # RPC and JSON libraries
 
