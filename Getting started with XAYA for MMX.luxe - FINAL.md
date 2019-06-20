@@ -162,7 +162,7 @@ The returned JSON should include the following name/key pair.
 
 In other words, to read information, you query the luxe GSP database through the luxed daemon. To write to the luxe GSP database, you must send those updates to xayad, which are entered into the XAYA blockchain then processed in the luxe GSP and entered into its database. 
 
-![LUXED-VS-XAYAD-READ-VS-WRITE](/LUXED-VS-XAYAD-READ-VS-WRITE.PNG)
+![LUXED-VS-XAYAD-READ-VS-WRITE](LUXED-VS-XAYAD-READ-VS-WRITE.PNG)
 
 ## Create and Associate New Domain Names in the luxed GSP
 
