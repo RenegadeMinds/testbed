@@ -164,19 +164,37 @@ In other words, to read information, you query the luxe GSP database through the
 
 ![LUXED-VS-XAYAD-READ-VS-WRITE](LUXED-VS-XAYAD-READ-VS-WRITE.PNG)
 
-## Create and Associate New Domain Names in the luxed GSP
+<!-- ## Create and Associate New Domain Names in the luxed GSP
 
-To enable blockchain functionality for .luxe domain names, they must be entered into the system by an authorised .luxe domain name reseller. 
+To enable blockchain functionality for .luxe domain names, they must be entered into the system by an authorised .luxe domain name reseller.  -->
 
-**NOTE:** As a reseller, you must confirm the .luxe domain with MMX prior to entering it into the blockchain. That may mean reserving or purchasing the domain name. Consult the .luxe domain name reseller documentation for further information on this or contact your MMX representative for further support.
+## Create New Domain Names via Reseller
 
-Once you have completed that, you can continue. 
+To avoid discrepancy between the MMX system and the XAYA blockchain, registrars/resellers are not allowed to create new domain names on the XAYA blockchain directly. The creation of new domains is done by MMX after receiving orders/requests from the registrar/reseller through the traditional process. This is the same for the transfer and deletion process. 
+
+To create new domains with DNS functionality, resellers must:
+
+1. Check the availability of the domain through the Registrar API. The registrar then checks the availability in the MMX system. If it is available, then the API returns it as available.
+1. Submit a create request through the registrar API. The registrar then submits the create request to the MMX system. 
+1. Once the name has been created successfully in the MMX system, MMX will then create the same name in the XAYA blockchain and assign the name to the registrar, the reseller and the owner. MMX then informs the registrar that the create request has been completed. 
+1. The reseller receives confirmation through the registrar API about the completion of the purchase. 
+
+To create new domains without DNS functionality (on-chain only), the reseller must:
+
+1. Check the availability of the domain through the registrar API. The registrar then checks the availability with the MMX system. If it is available, then then the API returns it as available.
+1. Submit an on-chain create request through the registrar API. The registrar then submits the create request to the MMX system. 
+1. MMX reserves the name in the MMX system, creates the same name in the XAYA blockchain, and assigns the name to the registrar, the reseller and the owner. MMX then informs the registrar that the create request has been completed. 
+1. The reseller receives confirmation through the registrar API about the completion of the purchase. 
+
+**NOTE:** The registrar and reseller should send their XAYA name to MMX for assigning the created name on the blockchain correctly. If the owner doesn’t have a XAYA name, the registrar/reseller can assign it later once the owner creates his XAYA name. The MMX system would need to add the XAYA name as additional/optional information requested for the create request. 
+
+<!-- ### Create New .luxe Domain Names on the Blockchain
 
 The following command creates the .luxe domain names "foo" and "bar" in the system. Remember to replace `<my name>` with the XAYA name that you chose and sent to MMX above under “Send Your XAYA Name to MMX” (and they have confirmed it has been added as a reseller).
 
     xaya-cli name_update "p/<my name>" "{\"g\":{\"luxe\":{\"an\": [\"foo\", \"bar\"]}}}"
 
-**NOTE:** It takes 30 seconds on average for a transaction to be mined into the XAYA blockchain, i.e. after you’ve created your XAYA name, it must be mined into the blockchain before you can use it.
+**NOTE:** It takes 30 seconds on average for a transaction to be mined into the XAYA blockchain, i.e. after you’ve created your XAYA name, it must be mined into the blockchain before you can use it. -->
 
 ### Create Associations
 
@@ -194,7 +212,7 @@ For the domain name “bar”, it sets “btc” to “123abc” and deletes the
 
 **NOTE:** XAYA blocks are mined at a rate of approximately 1 per 30 seconds. If you try to update a name successively, and a new block has not been mined, you may get a `there is already a pending update for this name` error. To reduce this restriction you can batch multiple commands in 1 name_update and/or request to have more p/names to use for reselling .luxe domain names from MMX.
 
-### Transfer an Existing Name
+<!-- ### Transfer an Existing Name
 
 You can transfer an existing name to another .luxe domain reseller and/or a new domain owner.
 
@@ -212,7 +230,7 @@ You can delete one or more existing domain names from the system as shown below.
 
 That command deletes the domain names “foo” and “bar”. 
 
-See the [Name Management documentation](https://github.com/xaya/luxe/blob/master/doc/moves.md#name-management) for further details.
+See the [Name Management documentation](https://github.com/xaya/luxe/blob/master/doc/moves.md#name-management) for further details. -->
 
 ## How to Lookup Names
 
