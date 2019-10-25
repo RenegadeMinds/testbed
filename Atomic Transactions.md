@@ -173,13 +173,11 @@ Note that the tx fee is never explicitly stated. It is the difference between #1
 
 It's now time to figure out what our `nameupdate` value should be. As stated above, it is 3 colon separated values: 1) `0`, 2) the name to update in hexadecimal, and 3) the value to update the name with in hexadecimal.
 
-You can use any number of different hex to string converters online.
+You can use any number of different [hex to string converters online](https://duckduckgo.com/?q=hex+to+string).
 
-[https://duckduckgo.com/?q=hex+to+string](https://duckduckgo.com/?q=hex+to+string)
+\#1 is trivial.
 
-1 is trivial.
-
-2 is just p/Alice in hex, i.e.
+\#2 is just p/Alice in hex, i.e.
 
     702f416c696365
 
