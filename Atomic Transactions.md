@@ -2,7 +2,15 @@
 
 Atomic Transactions allow parties to trade with each other in a decentralised and trustless manner. In an atomic transaction, each party gets that they have bargained for or the transaction fails. 
 
-For example, Alice and Bob could talk to each other and decide on a trade; Alice will give Bob a magic sword from inside of a game and Bob will give Alice 10 CHI. They create a transaction and each of them sign it. When that is complete, the transaction goes through. Alice gets 10 CHI and Bob gets the sword.
+For example, Alice and Bob could talk to each other and decide on a trade; Alice will give Bob a magic sword from inside of a game and Bob will give Alice 10 CHI. They create a transaction and each of them sign it before it is sent to the Xaya blockchain network. When that is complete, the transaction goes through. Alice gets 10 CHI and Bob gets the sword.
+
+In this tutorial, we will do quite a bit.
+
+1. Set up a regtest network with 2 nodes
+1. Get the data we need in order to create an atomic transaction
+1. Use that data to create to create an atomic transaction
+1. Have both sides sign the transaction
+1. Send the transaction to your private Xaya regtest network
 
 ## Regtest
 
@@ -50,7 +58,7 @@ Now the `name_list` command on Bob will return something like this:
       }
     ]
 
-## Prepare to Create the Transaction
+## Gather Data for the Atomic Transaction
 
 Prior to creating the transaction for Alice and Bob to sign, we must gather some information. At this point we are working on the Bob computer/node. 
 
@@ -115,6 +123,8 @@ Open the file and have a look inside. It is a JSON array of elements similar to 
       }
 
 What we are looking for is an item with coins in it, i.e. the `amount` value is sufficient for our transaction. From this we need the `txid`, the `vout`, and the `address` values.
+
+## Assembling the Data for the Atomic Transaction
 
 Now we begin to assemble the data we collected above into a transaction that we will create using xaya-tx. xaya-tx is an advanced utility that is distributed with the Xaya QT wallet. It's in the same folder as xaya-cli. 
 
@@ -456,16 +466,16 @@ Returns:
       "coinbase": false
     }
 
-Alice can now sign the transaction:
+Alice can now sign the transaction using xaya-cli and `signrawtransactionwithwallet`:
 
-xaya-cli -regtest signrawtransactionwithwallet 0200000002240045e35eac2ef827a278f4b868cc48552289afbf076896275893b06f81e7f20000000000ffffffff063fbcdff0866d8d8801fbe267294b9b4c2db2d97eda6adaa12913506c8c2702000000006a473044022068e3798368ea82c219d23facd26306b353c9eeae9da8966ced058a2679c4547c0220235a6fdbd6425e6e8662a55089f179a5d14bd232eb5a9f0ca54ec07133ef0a27012103593445c4a9111b2dd0aba3fe427545a09c6e5f9612f76741ddbef49d93ac83f0ffffffff0340420f0000000000505207702f416c6963652b7b2267223a7b2278223a7b2273656e64223a7b22426f62223a20224d616769632073776f7264227d7d7d7d6d7576a914bd4056c5414ffc4433607537b7c83a6e3a33d6cb88ac00ca9a3b000000001976a914bd4056c5414ffc4433607537b7c83a6e3a33d6cb88ac60a169ee000000001976a91406712471ae9e7ad746e7645588f0218d7622210588ac00000000
+    xaya-cli -regtest signrawtransactionwithwallet 0200000002240045e35eac2ef827a278f4b868cc48552289afbf076896275893b06f81e7f20000000000ffffffff063fbcdff0866d8d8801fbe267294b9b4c2db2d97eda6adaa12913506c8c2702000000006a473044022068e3798368ea82c219d23facd26306b353c9eeae9da8966ced058a2679c4547c0220235a6fdbd6425e6e8662a55089f179a5d14bd232eb5a9f0ca54ec07133ef0a27012103593445c4a9111b2dd0aba3fe427545a09c6e5f9612f76741ddbef49d93ac83f0ffffffff0340420f0000000000505207702f416c6963652b7b2267223a7b2278223a7b2273656e64223a7b22426f62223a20224d616769632073776f7264227d7d7d7d6d7576a914bd4056c5414ffc4433607537b7c83a6e3a33d6cb88ac00ca9a3b000000001976a914bd4056c5414ffc4433607537b7c83a6e3a33d6cb88ac60a169ee000000001976a91406712471ae9e7ad746e7645588f0218d7622210588ac00000000
 
 That will return a new hex value that is signed. 
 
-{
- "hex": "0200000002240045e35eac2ef827a278f4b868cc48552289afbf076896275893b06f81e7f2000000006a47304402201a14e382d52d12cc7612e8eecba8ae08142de6b41bd0a9e07d4f8d41edb22c82022022825a230c4c362b263fd420b20c6e3e786a6a7762b3910387c19991d7f372a5012102afd230724907945ab78093d651039e62fb7cfe2aa7adf9a2d352b1e9d2c1a0faffffffff063fbcdff0866d8d8801fbe267294b9b4c2db2d97eda6adaa12913506c8c2702000000006a473044022068e3798368ea82c219d23facd26306b353c9eeae9da8966ced058a2679c4547c0220235a6fdbd6425e6e8662a55089f179a5d14bd232eb5a9f0ca54ec07133ef0a27012103593445c4a9111b2dd0aba3fe427545a09c6e5f9612f76741ddbef49d93ac83f0ffffffff0340420f0000000000505207702f416c6963652b7b2267223a7b2278223a7b2273656e64223a7b22426f62223a20224d616769632073776f7264227d7d7d7d6d7576a914bd4056c5414ffc4433607537b7c83a6e3a33d6cb88ac00ca9a3b000000001976a914bd4056c5414ffc4433607537b7c83a6e3a33d6cb88ac60a169ee000000001976a91406712471ae9e7ad746e7645588f0218d7622210588ac00000000",
- "complete": true
-}
+    {
+     "hex": "0200000002240045e35eac2ef827a278f4b868cc48552289afbf076896275893b06f81e7f2000000006a47304402201a14e382d52d12cc7612e8eecba8ae08142de6b41bd0a9e07d4f8d41edb22c82022022825a230c4c362b263fd420b20c6e3e786a6a7762b3910387c19991d7f372a5012102afd230724907945ab78093d651039e62fb7cfe2aa7adf9a2d352b1e9d2c1a0faffffffff063fbcdff0866d8d8801fbe267294b9b4c2db2d97eda6adaa12913506c8c2702000000006a473044022068e3798368ea82c219d23facd26306b353c9eeae9da8966ced058a2679c4547c0220235a6fdbd6425e6e8662a55089f179a5d14bd232eb5a9f0ca54ec07133ef0a27012103593445c4a9111b2dd0aba3fe427545a09c6e5f9612f76741ddbef49d93ac83f0ffffffff0340420f0000000000505207702f416c6963652b7b2267223a7b2278223a7b2273656e64223a7b22426f62223a20224d616769632073776f7264227d7d7d7d6d7576a914bd4056c5414ffc4433607537b7c83a6e3a33d6cb88ac00ca9a3b000000001976a914bd4056c5414ffc4433607537b7c83a6e3a33d6cb88ac60a169ee000000001976a91406712471ae9e7ad746e7645588f0218d7622210588ac00000000",
+     "complete": true
+    }
 
 You can verify it as shown above.
 
@@ -499,6 +509,18 @@ Returns:
     ]
 
 And we can see the `value` has sent the sword from Alice to Bob.
+
+However, our atomic transaction is only in the mempool so far. We need to mine at least 1 block to give it at least 1 confirmation.
+
+xaya-cli -regtest generatetoaddress 1 cVuy5TLydBa2aqGZ3VMW73XX3fFyTYweMx
+
+Which returns a block hash:
+
+    [
+      "857eefac8b007454c35fec5dff9d0a6ca583a494d9e24448be845676ff06a49f"
+    ]
+
+You can check your wallets to see that the proper amounts were received appropriately. 
 
 DONE!
 
