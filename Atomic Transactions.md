@@ -12,6 +12,19 @@ In this tutorial, we will do quite a bit.
 1. Have both sides sign the transaction
 1. Send the transaction to your private Xaya regtest network
 
+## Before You Continue
+
+Before you continue, you should already be familiar with a few things.
+
+- [xayad](Running-xayad-for-Games)
+- [xaya-cli](xaya-cli)
+- [The `name_register` RPC method](XAYA-RPC-Methods#name_register)
+- [The `name_show` RPC method](XAYA-RPC-Methods#name_show)
+- [The `name_update` RPC method](XAYA-RPC-Methods#name_update)
+- [regtest](Regtestnet)
+
+If you're not already familiar with these, you may struggle with some of the tutorial here. 
+
 ## Regtest
 
 Here we will walk through performing an atomic transaction on the Xaya regtest private network.  
@@ -27,7 +40,7 @@ To start, create a Xaya name on each node using [xaya-cli](xaya-cli).
     xaya-cli -regtest name_register "p/Alice" "{}"
     xaya-cli -regtest name_register "p/Bob" "{}"
 
-From here on in, we'll refer to each node as the names we created on each node, i.e. Alice and Bob. 
+From here on in, we'll refer to each node as the names we created on each node, i.e. Alice and Bob. Bob will create and sign the initial transaction then send it to Alice to sign and send to the Xaya blockchain network. 
 
 Next, check to see the names in the wallet with the `name_list` RPC command.
 
@@ -42,7 +55,7 @@ So, mine 1 block remembering to replace the regtest CHI address with your own.
 
     xaya-cli -regtest generatetoaddress 6 cVuy5TLydBa2aqGZ3VMW73XX3fFyTYweMx
 
-Now the `name_list` command on Bob will return something like this:
+Now the `name_list` command on Bob will return something like this for Bob (and similar for Alice):
 
     [
       {
@@ -105,6 +118,8 @@ We'll use that `address` value below for Bob.
 Next, we need to run `listunspent`. Because we're running on regtest, and because we've mined so many coins, this will be a very long list. Consequently we'll output this to a file.
 
     xaya-cli -regtest listunspent >listunspent.txt
+
+**NOTE:** The results of `listunspent` are the same results displayed in the QT wallet's coin controls, i.e. in the QT wallet's Send tab, clicking the "Inputs..." button will display these results. 
 
 Open the file and have a look inside. It is a JSON array of elements similar to this:
 
