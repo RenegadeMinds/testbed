@@ -53,7 +53,7 @@ The response will be an empty array, i.e.:
     [
     ]
 
-So, mine 1 block remembering to replace the regtest CHI address with your own.
+We must explicitly mine blocks in regtest (this gives us complete control over how blocks are mined which is critically useful during development), so mine 1 block remembering to replace the regtest CHI address with your own.
 
     xaya-cli -regtest generatetoaddress 6 cVuy5TLydBa2aqGZ3VMW73XX3fFyTYweMx
 
@@ -76,6 +76,14 @@ Now the `name_list` command on Bob will return something like this for Bob (and 
 ## Gather Data for the Atomic Transaction
 
 Prior to creating the transaction for Alice and Bob to sign, we must gather some information. At this point we are working on the Bob computer/node. 
+
+The data we want is:
+
+- txid
+- vout
+- address
+
+For both Alice and Bob. 
 
 Bob will get Alice's name and the data we need with the name_show RPC command.
 
