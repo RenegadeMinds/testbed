@@ -155,9 +155,9 @@ Now we begin to assemble the data we collected above into a transaction that we 
 
 For our transaction, we will need:
 
-1. 2 `in` values of `txid`s followed by a colon and their `vout` values
-1. 3 `outaddr` values of the `address`es from above
-1. 1 `nameupdate` value consisting of 3 colon separated values: 1) `0`, 2) the name to update in hexadecimal, and 3) the value to update the name with in hexadecimal
+1. 2x `in` values of `txid`s followed by a colon and their `vout` values
+1. 3x `outaddr` values of the `address`es from above
+1. 1x `nameupdate` value consisting of 3 colon separated values: 1) `0`, 2) the name to update in hexadecimal, and 3) the value to update the name with in hexadecimal
 
 The first `in` `txid` value is from the Alice `name_show` operation above, i.e.:
 
