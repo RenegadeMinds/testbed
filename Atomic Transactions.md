@@ -191,7 +191,14 @@ In hex that is:
 
     7b2267223a7b2278223a7b2273656e64223a7b22426f62223a20224d616769632073776f7264227d7d7d7d
 
-Assembling the above, we have the following:
+**NOTE:** In our example here we are using xaya-tx and its `create` method. For a production game, utility, or exchange you would be more likely to use the `createrawtransaction` and `namerawtransaction` RPC methods available in xayad. This will be addressed in a future tutorial on the topic. If you wish to see examples for this, refer to the following URLs:
+
+    https://github.com/xaya/xaya/blob/master/test/functional/xaya_trading.py
+    https://github.com/xaya/xaya/blob/76fc6ef71b8aaafe888096d8878891fbd3dd7109/test/functional/test_framework/names.py#L85
+
+Continuing with our trade between Alice and Bob using xaya-tx...
+
+Assembling the above, we have the following (suitable if you're using Linux):
 
     xaya-tx -regtest -create \
      in=f2e7816fb0935827966807bfaf89225548cc68b8f478a227f82eac5ee3450024:0 \
@@ -201,7 +208,7 @@ Assembling the above, we have the following:
      outaddr=39.999:cRL9Eyb4TAJuK81RK8dSkBFYvP5XVq42ap \
      nameupdate=0:702f416c696365:7b2267223a7b2278223a7b2273656e64223a7b22426f62223a20224d616769632073776f7264227d7d7d7d
 
-Or on 1 line:
+Or on 1 line (suitable for Linux or Windows):
 
     xaya-tx -regtest -create  in=f2e7816fb0935827966807bfaf89225548cc68b8f478a227f82eac5ee3450024:0 in=02278c6c501329a1da6ada7ed9b22d4c9b4b2967e2fb01888d6d86f0dfbc3f06:0 outaddr=0.01:chzkSAHVvhEETHRESUZjwboK5qXbJULZsp outaddr=10:chzkSAHVvhEETHRESUZjwboK5qXbJULZsp outaddr=39.999:cRL9Eyb4TAJuK81RK8dSkBFYvP5XVq42ap nameupdate=0:702f416c696365:7b2267223a7b2278223a7b2273656e64223a7b22426f62223a20224d616769632073776f7264227d7d7d7d
 
@@ -294,9 +301,9 @@ You will receive output similar to the following:
         "hex": "0200000002240045e35eac2ef827a278f4b868cc48552289afbf076896275893b06f81e7f20000000000ffffffff063fbcdff0866d8d8801fbe267294b9b4c2db2d97eda6adaa12913506c8c27020000000000ffffffff0340420f0000000000505207702f416c6963652b7b2267223a7b2278223a7b2273656e64223a7b22426f62223a20224d616769632073776f7264227d7d7d7d6d7576a914bd4056c5414ffc4433607537b7c83a6e3a33d6cb88ac00ca9a3b000000001976a914bd4056c5414ffc4433607537b7c83a6e3a33d6cb88ac60a169ee000000001976a91406712471ae9e7ad746e7645588f0218d7622210588ac00000000"
     }
 
-There is a lot to unpack there so for the sake of brevity it is left up to the reader to check the `vin` and `vout` values to see that the proper coins/items are sent to the proper recipients. 
+There is a lot to unpack there so for the sake of brevity it is left up to the reader to check the `vin` and `vout` values to see that the proper coins/items are sent to the proper recipients. What you should take note of is that the `scriptSig` fields aren't filled in quite yet. That will be done when Bob and Alice each sign the transaction. 
 
-Next, it's time for Bob to sign the transaction before he sends it to Alice to sign. Using the hex result we generated from the xaya-tx create command, issue the following command with xaya-cli:
+Next, it's time for Bob to sign the transaction before he sends it to Alice to sign. Using the hex result we generated from the xaya-tx `create` command, issue the following command with xaya-cli to sign the raw transaction:
 
     xaya-cli -regtest signrawtransactionwithwallet 0200000002240045e35eac2ef827a278f4b868cc48552289afbf076896275893b06f81e7f20000000000ffffffff063fbcdff0866d8d8801fbe267294b9b4c2db2d97eda6adaa12913506c8c27020000000000ffffffff0340420f0000000000505207702f416c6963652b7b2267223a7b2278223a7b2273656e64223a7b22426f62223a20224d616769632073776f7264227d7d7d7d6d7576a914bd4056c5414ffc4433607537b7c83a6e3a33d6cb88ac00ca9a3b000000001976a914bd4056c5414ffc4433607537b7c83a6e3a33d6cb88ac60a169ee000000001976a91406712471ae9e7ad746e7645588f0218d7622210588ac00000000
 
@@ -409,7 +416,7 @@ The resulting output will look something like this:
         "hex": "0200000002240045e35eac2ef827a278f4b868cc48552289afbf076896275893b06f81e7f20000000000ffffffff063fbcdff0866d8d8801fbe267294b9b4c2db2d97eda6adaa12913506c8c2702000000006a473044022068e3798368ea82c219d23facd26306b353c9eeae9da8966ced058a2679c4547c0220235a6fdbd6425e6e8662a55089f179a5d14bd232eb5a9f0ca54ec07133ef0a27012103593445c4a9111b2dd0aba3fe427545a09c6e5f9612f76741ddbef49d93ac83f0ffffffff0340420f0000000000505207702f416c6963652b7b2267223a7b2278223a7b2273656e64223a7b22426f62223a20224d616769632073776f7264227d7d7d7d6d7576a914bd4056c5414ffc4433607537b7c83a6e3a33d6cb88ac00ca9a3b000000001976a914bd4056c5414ffc4433607537b7c83a6e3a33d6cb88ac60a169ee000000001976a91406712471ae9e7ad746e7645588f0218d7622210588ac00000000"
     }
 
-Note how 1 of the `scriptSig` fields now has a filled in value because we just signed the transaction.
+Note how 1 of the `scriptSig` fields now has a filled in value because Bob just signed the transaction.
 
 At this point, it's up to Alice to sign the transaction and complete it. 
 
@@ -470,7 +477,7 @@ Alice can now sign the transaction using xaya-cli and `signrawtransactionwithwal
 
     xaya-cli -regtest signrawtransactionwithwallet 0200000002240045e35eac2ef827a278f4b868cc48552289afbf076896275893b06f81e7f20000000000ffffffff063fbcdff0866d8d8801fbe267294b9b4c2db2d97eda6adaa12913506c8c2702000000006a473044022068e3798368ea82c219d23facd26306b353c9eeae9da8966ced058a2679c4547c0220235a6fdbd6425e6e8662a55089f179a5d14bd232eb5a9f0ca54ec07133ef0a27012103593445c4a9111b2dd0aba3fe427545a09c6e5f9612f76741ddbef49d93ac83f0ffffffff0340420f0000000000505207702f416c6963652b7b2267223a7b2278223a7b2273656e64223a7b22426f62223a20224d616769632073776f7264227d7d7d7d6d7576a914bd4056c5414ffc4433607537b7c83a6e3a33d6cb88ac00ca9a3b000000001976a914bd4056c5414ffc4433607537b7c83a6e3a33d6cb88ac60a169ee000000001976a91406712471ae9e7ad746e7645588f0218d7622210588ac00000000
 
-That will return a new hex value that is signed. 
+That will return a new hex value that is signed by Alice. 
 
     {
      "hex": "0200000002240045e35eac2ef827a278f4b868cc48552289afbf076896275893b06f81e7f2000000006a47304402201a14e382d52d12cc7612e8eecba8ae08142de6b41bd0a9e07d4f8d41edb22c82022022825a230c4c362b263fd420b20c6e3e786a6a7762b3910387c19991d7f372a5012102afd230724907945ab78093d651039e62fb7cfe2aa7adf9a2d352b1e9d2c1a0faffffffff063fbcdff0866d8d8801fbe267294b9b4c2db2d97eda6adaa12913506c8c2702000000006a473044022068e3798368ea82c219d23facd26306b353c9eeae9da8966ced058a2679c4547c0220235a6fdbd6425e6e8662a55089f179a5d14bd232eb5a9f0ca54ec07133ef0a27012103593445c4a9111b2dd0aba3fe427545a09c6e5f9612f76741ddbef49d93ac83f0ffffffff0340420f0000000000505207702f416c6963652b7b2267223a7b2278223a7b2273656e64223a7b22426f62223a20224d616769632073776f7264227d7d7d7d6d7576a914bd4056c5414ffc4433607537b7c83a6e3a33d6cb88ac00ca9a3b000000001976a914bd4056c5414ffc4433607537b7c83a6e3a33d6cb88ac60a169ee000000001976a91406712471ae9e7ad746e7645588f0218d7622210588ac00000000",
@@ -488,7 +495,6 @@ That returns a txid:
     7ac957626ae6a656565cb849c1c58d88b0f46057d6a4d8baa361c9697639fe19
 
 We can use `name_pending` to verify that the `name_update` has gone through:
-
 
     xaya-cli -regtest name_pending
 
@@ -510,9 +516,9 @@ Returns:
 
 And we can see the `value` has sent the sword from Alice to Bob.
 
-However, our atomic transaction is only in the mempool so far. We need to mine at least 1 block to give it at least 1 confirmation.
+However, our atomic transaction is only in the mempool so far. We need to mine at least 1 block to give it at least 1 confirmation. It doesn't matter whether the Bob or Alice node mines the next block. Here Bob mines a new block.
 
-xaya-cli -regtest generatetoaddress 1 cVuy5TLydBa2aqGZ3VMW73XX3fFyTYweMx
+    xaya-cli -regtest generatetoaddress 1 cVuy5TLydBa2aqGZ3VMW73XX3fFyTYweMx
 
 Which returns a block hash:
 
