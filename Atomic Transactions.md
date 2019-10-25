@@ -175,7 +175,7 @@ It's now time to figure out what our `nameupdate` value should be. As stated abo
 
 You can use any number of different hex to string converters online.
 
-    https://duckduckgo.com/?q=hex+to+string
+[https://duckduckgo.com/?q=hex+to+string](https://duckduckgo.com/?q=hex+to+string)
 
 1 is trivial.
 
