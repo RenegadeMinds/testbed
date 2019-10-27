@@ -204,6 +204,8 @@ The second is Bob's payment of 10 CHI to Alice in the same format as above, i.e.
 
     outaddr=10:chzkSAHVvhEETHRESUZjwboK5qXbJULZsp
 
+#### Do the Math for Change
+
 The third is the change we pay to ourselves, i.e. to Bob. However, we need to know how much that is and we must do some math.
 
 There are several important numbers we need. The 0.01 for the name is ignored.
@@ -217,13 +219,15 @@ Note that the tx fee is never explicitly stated. It is the difference between #1
 
     outaddr=39.999:cRL9Eyb4TAJuK81RK8dSkBFYvP5XVq42ap
 
+### The Name Update Operation that Transfers the Sword 
+
 It's now time to figure out what our `nameupdate` value should be. As stated above, it is 3 colon separated values: 1) `0`, 2) the name to update in hexadecimal, and 3) the value to update the name with in hexadecimal.
 
 You can use any number of different [hex to string converters online](https://duckduckgo.com/?q=hex+to+string).
 
 \#1 is trivial.
 
-\#2 is just p/Alice in hex, i.e.
+\#2 is just "p/Alice" in hex, i.e.
 
     702f416c696365
 
@@ -239,6 +243,8 @@ In hex that is:
 
     https://github.com/xaya/xaya/blob/master/test/functional/xaya_trading.py
     https://github.com/xaya/xaya/blob/76fc6ef71b8aaafe888096d8878891fbd3dd7109/test/functional/test_framework/names.py#L85
+
+## Assembling the Atomic Transaction
 
 Continuing with our trade between Alice and Bob using xaya-tx...
 
@@ -346,6 +352,8 @@ You will receive output similar to the following:
     }
 
 There is a lot to unpack there so for the sake of brevity it is left up to the reader to check the `vin` and `vout` values to see that the proper coins/items are sent to the proper recipients. What you should take note of is that the `scriptSig` fields aren't filled in quite yet. That will be done when Bob and Alice each sign the transaction. 
+
+## Bob Signs the Transaction
 
 Next, it's time for Bob to sign the transaction before he sends it to Alice to sign. Using the hex result we generated from the xaya-tx `create` command, issue the following command with xaya-cli to sign the raw transaction:
 
@@ -462,6 +470,8 @@ The resulting output will look something like this:
 
 Note how 1 of the `scriptSig` fields now has a filled in value because Bob just signed the transaction.
 
+## Alice Signs the Transaction
+
 At this point, it's up to Alice to sign the transaction and complete it. 
 
 Bob must now send the new updated hex value to Alice to sign.
@@ -529,6 +539,8 @@ That will return a new hex value that is signed by Alice.
     }
 
 You can verify it as shown above.
+
+## Alice Sends the Transaction to the Xaya Blockchain Network
 
 Alice can now send the transaction to complete it.
 
