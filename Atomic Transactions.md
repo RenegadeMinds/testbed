@@ -167,7 +167,16 @@ For our transaction, we will need:
 1. 3x `outaddr` values of the `address`es from above
 1. 1x `nameupdate` value consisting of 3 colon separated values: 1) `0`, 2) the name to update in hexadecimal, and 3) the value to update the name with in hexadecimal
 
-The first `in` `txid` value is from the Alice `name_show` operation above, i.e.:
+### `in` Values
+
+Our `in` values are input values of transaction ids. Recall that each party, Alice and Bob, are both sending something. Alice is sending a sword through a `name_update` operation, and Bob is simply sending coins, 10 CHI, to Alice. Our inputs then are:
+
+- The transaction id associated with "p/Alice"
+- A transaction id associated with enough coins to pay Alice 10 CHI
+
+#### The `txid` for Alice
+
+The first `in` `txid` value is from the Alice `name_show` operation [above](#get-data-for-alice), i.e.:
 
     in=f2e7816fb0935827966807bfaf89225548cc68b8f478a227f82eac5ee3450024
 
@@ -175,13 +184,17 @@ We add a colon and the `vout` value from the `name_show` result, i.e.:
 
     in=f2e7816fb0935827966807bfaf89225548cc68b8f478a227f82eac5ee3450024:0
 
-The second `in` `txid` value is from Bob's `listunspent` value that we chose above, i.e.:
+#### The `txid` for Bob
+
+The second `in` `txid` value is from Bob's `listunspent` value that we chose [above](#get-data-for-a-transaction-with-coins-in-it), i.e.:
 
     in=02278c6c501329a1da6ada7ed9b22d4c9b4b2967e2fb01888d6d86f0dfbc3f06
 
 We add a colon and the `vout` value from the `name_show` result, i.e.:
 
     in=02278c6c501329a1da6ada7ed9b22d4c9b4b2967e2fb01888d6d86f0dfbc3f06:0
+
+### `outaddr` Values
 
 We now need 3 `outaddr` values. The first spends the value of the Xaya name to the same address as the name, i.e. to Alice. All Xaya names cost 0.01 CHI. So, we have:
 
