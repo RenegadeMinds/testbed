@@ -1,6 +1,6 @@
 # Atomic Transactions
 
-Atomic Transactions allow parties to trade with each other in a decentralised and trustless manner. In an atomic transaction, each party gets that they have bargained for or the transaction fails. 
+Atomic Transactions allow parties to trade with each other in a decentralised and trustless manner. In an atomic transaction, each party gets what they have bargained for or the transaction fails. 
 
 For example, Alice and Bob could talk to each other and decide on a trade; Alice will give Bob a magic sword from inside of a game and Bob will give Alice 10 CHI. They create a transaction and each of them sign it before it is sent to the Xaya blockchain network. When that is complete, the transaction goes through. Alice gets 10 CHI and Bob gets the sword.
 
@@ -85,6 +85,8 @@ The data we want is:
 
 For both Alice and Bob. 
 
+### Get Data for Alice
+
 Bob will get Alice's name and the data we need with the name_show RPC command.
 
     xaya-cli -regtest name_show "p/Alice"
@@ -105,7 +107,9 @@ Which returns something like this:
 
 The important parts there are the `txid`, the `vout`, and the `address` values. We'll use them shortly. 
 
-That gives us data that we need for Alice, but we also need a change address to send Bob's change. We can use the same address that Bob is stored in with another `name_show` command.
+### Get Data for Bob
+
+That gave us data that we need for Alice, but we also need a change address to send Bob's change. We can use the same address that Bob is stored in with another `name_show` command.
 
     xaya-cli -regtest name_show "p/Bob"
 
@@ -125,7 +129,11 @@ Which returns:
 
 We'll use that `address` value below for Bob.
 
-Next, we need to run `listunspent`. Because we're running on regtest, and because we've mined so many coins, this will be a very long list. Consequently we'll output this to a file.
+### Get Data for a Transaction with Coins in it
+
+Next, we need to find some coins in Bob's wallet for him to pay Alice 10 CHI.
+
+We need to run `listunspent`. Because we're running on regtest, and because we've mined so many coins, this will be a very long list. Consequently we'll output this to a file.
 
     xaya-cli -regtest listunspent >listunspent.txt
 
@@ -147,7 +155,7 @@ Open the file and have a look inside. It is a JSON array of elements similar to 
         "safe": true
       }
 
-What we are looking for is an item with coins in it, i.e. the `amount` value is sufficient for our transaction. From this we need the `txid`, the `vout`, and the `address` values.
+What we are looking for is an item with coins in it, i.e. the `amount` value is sufficient for our transaction (including fees). From this we need the `txid`, the `vout`, and the `address` values.
 
 ## Assembling the Data for the Atomic Transaction
 
