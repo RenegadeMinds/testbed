@@ -14,6 +14,8 @@ In this tutorial, we will do quite a bit.
 
 **NOTE:** The tutorial here is for a *purchase* of an item (Alice is selling a magic sword to Bob for 10 CHI). That is, an in-game item is being purchased for CHI. There are many other scenarios, e.g. trading an in-game item for another in-game item, etc. Thus the scope of this tutorial is limited. A future tutorial will address other scenarios in greater detail. 
 
+**ALSO NOTE:** This tutorial uses xaya-cli and xaya-tx and *NOT* RPC methods for xayad. The purpose here is to give you an understanding of how transactions are created and sent. This tutorial does not explain what you would use in a production environment. A future tutorial will provide code that can be adapted to a production environment. However, this tutorial should provide you with enough information to create RPC-based code on your own. 
+
 ## Before You Continue
 
 Before you continue, you should already be familiar with a few things.
