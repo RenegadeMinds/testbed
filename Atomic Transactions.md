@@ -8,7 +8,7 @@ In this tutorial, we will do quite a bit.
 
 1. Set up a regtest network with 2 nodes
 1. Get the data we need in order to create an atomic transaction
-1. Use that data to create to create an atomic transaction
+1. Use that data to create an atomic transaction
 1. Have both sides sign the transaction
 1. Send the transaction to your private Xaya regtest network
 
@@ -33,7 +33,7 @@ If you're not already familiar with these, you may struggle with some of the tut
 
 Here we will walk through performing an atomic transaction on the Xaya regtest private network.  
 
-To follow along in this tutorial, you will need access to 2 regtest nodes. These can be separate computers or you can run the second node inside of a virtual machine (VM) such as Oracle's VirtualBox. 
+To follow along in this tutorial, you will need access to 2 regtest nodes. These can be separate computers or you can run the second node inside of a virtual machine (VM) such as Oracle's VirtualBox. You can also run the second regtest node on a different port. Alternatively, you can use multiple wallets and the `-rpcwallet=` option to specify which wallet to use for each command. Using 2 wallets is likely the easiest option for most people. This tutorial uses 2 machines each with a single wallet. 
 
 Before proceeding here, read the [regtest](Regtestnet) tutorial and set up 2 nodes. You will need to mine regtest CHI to maturity, so it's easiest to simply mine 101+ blocks on each node so that you have at least 1 spendable output. 
 
@@ -55,7 +55,7 @@ The response will be an empty array, i.e.:
     [
     ]
 
-We must explicitly mine blocks in regtest (this gives us complete control over how blocks are mined which is critically useful during development), so mine 1 block remembering to replace the regtest CHI address with your own.
+We must explicitly mine blocks in regtest (this gives us complete control over how blocks are mined which is critically useful during development), so mine a few blocks remembering to replace the regtest CHI address with your own.
 
     xaya-cli -regtest generatetoaddress 6 cVuy5TLydBa2aqGZ3VMW73XX3fFyTYweMx
 
@@ -81,11 +81,16 @@ Prior to creating the transaction for Alice and Bob to sign, we must gather some
 
 The data we want is:
 
+1. The "p/Alice" name output for Alice 
+1. A currency output for Bob to pay Alice with. 
+
+We'll use the following items from the output for Alice:
+
 - txid
 - vout
 - address
 
-For both Alice and Bob. 
+But only the `address` for Bob since it is only used to send change to Bob.
 
 ### Get Data for Alice
 
@@ -131,6 +136,8 @@ Which returns:
 
 We'll use that `address` value below for Bob.
 
+**NOTE:** What we need here is a change address for Bob, so we could also get a new CHI address using the `getnewaddress` command. 
+
 ### Get Data for a Transaction with Coins in it
 
 Next, we need to find some coins in Bob's wallet for him to pay Alice 10 CHI.
@@ -157,7 +164,7 @@ Open the file and have a look inside. It is a JSON array of elements similar to 
         "safe": true
       }
 
-What we are looking for is an item with coins in it, i.e. the `amount` value is sufficient for our transaction (including fees). From this we need the `txid`, the `vout`, and the `address` values.
+What we are looking for is an item with coins in it, i.e. the `amount` value is sufficient for our transaction (including fees). From this we need the `txid`, the `vout`, and the `amount` values.
 
 ## Assembling the Data for the Atomic Transaction
 
@@ -223,11 +230,13 @@ Note that the tx fee is never explicitly stated. It is the difference between #1
 
 ### The Name Update Operation that Transfers the Sword 
 
-It's now time to figure out what our `nameupdate` value should be. As stated above, it is 3 colon separated values: 1) `0`, 2) the name to update in hexadecimal, and 3) the value to update the name with in hexadecimal.
+It's now time to figure out what our `nameupdate` value should be. The `nameupdate` item modifies an `outaddr` item to change it into a proper name update. Which `outaddr` that is, is determined by setting an index. Consequently, we must then already know the index and building the `nameupdate` must be done after all `outaddr`s are complete and in order. 
+
+As stated above, it is 3 colon separated values: 1) the output index that the name p/Alice is spent to above, i.e. `0` for the 0.01 CHI output, 2) the name to update in hexadecimal, and 3) the value to update the name with in hexadecimal.
 
 You can use any number of different [hex to string converters online](https://duckduckgo.com/?q=hex+to+string).
 
-\#1 is trivial.
+\#1 The first item is the output index from among the `outaddr` values above for the `nameupdate` value, which in this case is 0. Recall that names carry a value of 0.01 CHI. If "outaddr=0.01:chzkSAHVvhEETHRESUZjwboK5qXbJULZsp" were after the 10 CHI outaddr, then it's index would be 1. 
 
 \#2 is just "p/Alice" in hex, i.e.
 
@@ -478,6 +487,16 @@ At this point, it's up to Alice to sign the transaction and complete it.
 
 Bob must now send the new updated hex value to Alice to sign.
 
+### Alice Should VERIFY the Transaction
+
+It is possible that Bob is a malicious character and that he's trying to scam Alice. Consequently, it is up to Alice to verify that the transaction she's about to sign is actually for what she and Bob bargained for previously, i.e. a magic sword for 10 CHI.
+
+There are 3 primary things for Alice to verify. 
+
+1. She gets one or more outputs with addresses in her wallet that sum up to 10 CHI
+1. The `name_update` output has her address and a value that matches the deal, e.g. it doesn't send something else or isn't for another game
+1. Only the correct name input is owned by her based on the address of `gettxout`
+
 Alice can verify each vin (obtained from the `xaya-tx -regtest -json HEX` command above) using the `txid`s and `vout` values.
 
     xaya-cli -regtest gettxout 02278c6c501329a1da6ada7ed9b22d4c9b4b2967e2fb01888d6d86f0dfbc3f06 0
@@ -499,6 +518,8 @@ Returns:
       },
       "coinbase": true
     }
+
+In there Alice sees that Bob does indeed have enough CHI to pay here. That output contains 50 CHI, and Alice is only selling the magic sword for 10 CHI, so all is fine so far. Later below in the transaction she'll verify where it is sent.
 
 And,
 
@@ -529,6 +550,10 @@ Returns:
       "coinbase": false
     }
 
+This part of the transaction regards Alice's name, "p/Alice". 
+
+### Alice Signs the Transaction
+
 Alice can now sign the transaction using xaya-cli and `signrawtransactionwithwallet`:
 
     xaya-cli -regtest signrawtransactionwithwallet 0200000002240045e35eac2ef827a278f4b868cc48552289afbf076896275893b06f81e7f20000000000ffffffff063fbcdff0866d8d8801fbe267294b9b4c2db2d97eda6adaa12913506c8c2702000000006a473044022068e3798368ea82c219d23facd26306b353c9eeae9da8966ced058a2679c4547c0220235a6fdbd6425e6e8662a55089f179a5d14bd232eb5a9f0ca54ec07133ef0a27012103593445c4a9111b2dd0aba3fe427545a09c6e5f9612f76741ddbef49d93ac83f0ffffffff0340420f0000000000505207702f416c6963652b7b2267223a7b2278223a7b2273656e64223a7b22426f62223a20224d616769632073776f7264227d7d7d7d6d7576a914bd4056c5414ffc4433607537b7c83a6e3a33d6cb88ac00ca9a3b000000001976a914bd4056c5414ffc4433607537b7c83a6e3a33d6cb88ac60a169ee000000001976a91406712471ae9e7ad746e7645588f0218d7622210588ac00000000
@@ -540,7 +565,104 @@ That will return a new hex value that is signed by Alice.
      "complete": true
     }
 
-You can verify it as shown above.
+### Alice Finishes Verifying the Transaction
+
+Alice can now verify the complete transaction as shown above, i.e.:
+
+    xaya-tx -regtest -json 0200000002240045e35eac2ef827a278f4b868cc48552289afbf076896275893b06f81e7f2000000006a47304402201a14e382d52d12cc7612e8eecba8ae08142de6b41bd0a9e07d4f8d41edb22c82022022825a230c4c362b263fd420b20c6e3e786a6a7762b3910387c19991d7f372a5012102afd230724907945ab78093d651039e62fb7cfe2aa7adf9a2d352b1e9d2c1a0faffffffff063fbcdff0866d8d8801fbe267294b9b4c2db2d97eda6adaa12913506c8c2702000000006a473044022068e3798368ea82c219d23facd26306b353c9eeae9da8966ced058a2679c4547c0220235a6fdbd6425e6e8662a55089f179a5d14bd232eb5a9f0ca54ec07133ef0a27012103593445c4a9111b2dd0aba3fe427545a09c6e5f9612f76741ddbef49d93ac83f0ffffffff0340420f0000000000505207702f416c6963652b7b2267223a7b2278223a7b2273656e64223a7b22426f62223a20224d616769632073776f7264227d7d7d7d6d7576a914bd4056c5414ffc4433607537b7c83a6e3a33d6cb88ac00ca9a3b000000001976a914bd4056c5414ffc4433607537b7c83a6e3a33d6cb88ac60a169ee000000001976a91406712471ae9e7ad746e7645588f0218d7622210588ac00000000
+
+Which returns:
+
+    {
+        "txid": "7ac957626ae6a656565cb849c1c58d88b0f46057d6a4d8baa361c9697639fe19",
+        "hash": "7ac957626ae6a656565cb849c1c58d88b0f46057d6a4d8baa361c9697639fe19",
+        "version": 2,
+        "size": 461,
+        "vsize": 461,
+        "weight": 1844,
+        "locktime": 0,
+        "vin": [
+            {
+                "txid": "f2e7816fb0935827966807bfaf89225548cc68b8f478a227f82eac5ee3450024",
+                "vout": 0,
+                "scriptSig": {
+                    "asm": "304402201a14e382d52d12cc7612e8eecba8ae08142de6b41bd0a9e07d4f8d41edb22c82022022825a230c4c362b263fd420b20c6e3e786a6a7762b3910387c19991d7f372a5[ALL] 02afd230724907945ab78093d651039e62fb7cfe2aa7adf9a2d352b1e9d2c1a0fa",
+                    "hex": "47304402201a14e382d52d12cc7612e8eecba8ae08142de6b41bd0a9e07d4f8d41edb22c82022022825a230c4c362b263fd420b20c6e3e786a6a7762b3910387c19991d7f372a5012102afd230724907945ab78093d651039e62fb7cfe2aa7adf9a2d352b1e9d2c1a0fa"
+                },
+                "sequence": 4294967295
+            },
+            {
+                "txid": "02278c6c501329a1da6ada7ed9b22d4c9b4b2967e2fb01888d6d86f0dfbc3f06",
+                "vout": 0,
+                "scriptSig": {
+                    "asm": "3044022068e3798368ea82c219d23facd26306b353c9eeae9da8966ced058a2679c4547c0220235a6fdbd6425e6e8662a55089f179a5d14bd232eb5a9f0ca54ec07133ef0a27[ALL] 03593445c4a9111b2dd0aba3fe427545a09c6e5f9612f76741ddbef49d93ac83f0",
+                    "hex": "473044022068e3798368ea82c219d23facd26306b353c9eeae9da8966ced058a2679c4547c0220235a6fdbd6425e6e8662a55089f179a5d14bd232eb5a9f0ca54ec07133ef0a27012103593445c4a9111b2dd0aba3fe427545a09c6e5f9612f76741ddbef49d93ac83f0"
+                },
+                "sequence": 4294967295
+            }
+        ],
+        "vout": [
+            {
+                "value": 0.01000000,
+                "n": 0,
+                "scriptPubKey": {
+                    "nameOp": {
+                        "op": "name_update",
+                        "name": "p/Alice",
+                        "name_encoding": "utf8",
+                        "value": "{\"g\":{\"x\":{\"send\":{\"Bob\": \"Magic sword\"}}}}",
+                        "value_encoding": "ascii"
+                    },
+                    "asm": "OP_NAME_UPDATE 702f416c696365 7b2267223a7b2278223a7b2273656e64223a7b22426f62223a20224d616769632073776f7264227d7d7d7d OP_2DROP OP_DROP OP_DUP OP_HASH160 bd4056c5414ffc4433607537b7c83a6e3a33d6cb OP_EQUALVERIFY OP_CHECKSIG",
+                    "hex": "5207702f416c6963652b7b2267223a7b2278223a7b2273656e64223a7b22426f62223a20224d616769632073776f7264227d7d7d7d6d7576a914bd4056c5414ffc4433607537b7c83a6e3a33d6cb88ac",
+                    "reqSigs": 1,
+                    "type": "pubkeyhash",
+                    "addresses": [
+                        "chzkSAHVvhEETHRESUZjwboK5qXbJULZsp"
+                    ]
+                }
+            },
+            {
+                "value": 10.00000000,
+                "n": 1,
+                "scriptPubKey": {
+                    "asm": "OP_DUP OP_HASH160 bd4056c5414ffc4433607537b7c83a6e3a33d6cb OP_EQUALVERIFY OP_CHECKSIG",
+                    "hex": "76a914bd4056c5414ffc4433607537b7c83a6e3a33d6cb88ac",
+                    "reqSigs": 1,
+                    "type": "pubkeyhash",
+                    "addresses": [
+                        "chzkSAHVvhEETHRESUZjwboK5qXbJULZsp"
+                    ]
+                }
+            },
+            {
+                "value": 39.99900000,
+                "n": 2,
+                "scriptPubKey": {
+                    "asm": "OP_DUP OP_HASH160 06712471ae9e7ad746e7645588f0218d76222105 OP_EQUALVERIFY OP_CHECKSIG",
+                    "hex": "76a91406712471ae9e7ad746e7645588f0218d7622210588ac",
+                    "reqSigs": 1,
+                    "type": "pubkeyhash",
+                    "addresses": [
+                        "cRL9Eyb4TAJuK81RK8dSkBFYvP5XVq42ap"
+                    ]
+                }
+            }
+        ],
+        "hex": "0200000002240045e35eac2ef827a278f4b868cc48552289afbf076896275893b06f81e7f2000000006a47304402201a14e382d52d12cc7612e8eecba8ae08142de6b41bd0a9e07d4f8d41edb22c82022022825a230c4c362b263fd420b20c6e3e786a6a7762b3910387c19991d7f372a5012102afd230724907945ab78093d651039e62fb7cfe2aa7adf9a2d352b1e9d2c1a0faffffffff063fbcdff0866d8d8801fbe267294b9b4c2db2d97eda6adaa12913506c8c2702000000006a473044022068e3798368ea82c219d23facd26306b353c9eeae9da8966ced058a2679c4547c0220235a6fdbd6425e6e8662a55089f179a5d14bd232eb5a9f0ca54ec07133ef0a27012103593445c4a9111b2dd0aba3fe427545a09c6e5f9612f76741ddbef49d93ac83f0ffffffff0340420f0000000000505207702f416c6963652b7b2267223a7b2278223a7b2273656e64223a7b22426f62223a20224d616769632073776f7264227d7d7d7d6d7576a914bd4056c5414ffc4433607537b7c83a6e3a33d6cb88ac00ca9a3b000000001976a914bd4056c5414ffc4433607537b7c83a6e3a33d6cb88ac60a169ee000000001976a91406712471ae9e7ad746e7645588f0218d7622210588ac00000000"
+    }
+
+The `vin` values we've already checked. The new result here merely has the `scriptSig`s completed.
+
+There are 3 `vout` values to check now. The first one is for the `name_update` operation. It spends 0.01 CHI (the value of a Xaya name) to Alice's address, chzkSAHVvhEETHRESUZjwboK5qXbJULZsp, and the name update value, i.e.:
+
+    "value": "{\"g\":{\"x\":{\"send\":{\"Bob\": \"Magic sword\"}}}}"
+
+Is correct. So, we've verified that Alice's sending of the sword is correct and Bob didn't maliciously create a different in-game move for her to perform in the name update. Time to check to see if Bob is upholding his part of the bargain for sending CHI.
+
+The second `vout` sends 10 CHI to chzkSAHVvhEETHRESUZjwboK5qXbJULZsp, which is Alice's address. So Bob is upholding his end of the deal to pay Alice 10 CHI.
+
+The third `vout` value is Bob's change and sends 39.999 CHI to Bob's cRL9Eyb4TAJuK81RK8dSkBFYvP5XVq42ap address. This checks out, even though Alice doesn't particularly care if Bob sends himself his change properly. 
 
 ## Alice Sends the Transaction to the Xaya Blockchain Network
 
